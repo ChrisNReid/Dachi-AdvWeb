@@ -1,4 +1,4 @@
-# Getting Started with Dachi
+# Getting Started with DACHI
 
 ## Available Scripts
 
