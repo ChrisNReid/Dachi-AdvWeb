@@ -2,7 +2,6 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const { supabase } = require('./index');
 
 async function checkEmailExists(email) {
   const { data, error } = await supabase.from('Users').select('email').eq('email', email);
