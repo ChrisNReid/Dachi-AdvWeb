@@ -4,6 +4,11 @@
 
 In the project directory, you can run:
 
+
+### 'docker-compose up'
+Runs the whole project in a dockerized container
+
+
 ### `npm start`
 
 Runs the app in the development mode.\
