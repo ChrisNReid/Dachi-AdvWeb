@@ -1,7 +1,7 @@
 // Import required libraries
 const { createClient } = require("@supabase/supabase-js");
 const express = require("express");
-const cors = require("cors");git
+const cors = require("cors")
 const app = express();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();

@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 
 // Customised fucntions to manually check information that is not available via supabase in-built
+// provides manual integrity checks of current users and other functions
 
 async function checkEmailExists(email) {
   const { data, error } = await supabase.from('Users').select('email').eq('email', email);
