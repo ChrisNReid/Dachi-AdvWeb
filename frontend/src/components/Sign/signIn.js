@@ -1,3 +1,4 @@
+// Import necessary dependencies:
 import React, { useState,useContext  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,6 +9,8 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(
 
 
 function SignIn() {
+  // destructuring the isAuthenticated and setIsAuthenticated variables from the AuthContext object
+  // defines naviagtion hok from the react router after successfull sign in
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,24 +18,29 @@ function SignIn() {
 
   const navigate = useNavigate();
 
-
+//POST request to the /api/signin endpoint and handles the response
   const handleSignin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
     try {
       const res = await axios.post('http://localhost:8080/api/signin', { email, password });
       console.log(res.data);
+      //set tokens
       localStorage.setItem('token', res.data.token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`; // Set the header if the user is authenticated
+      // Set the header if the user is authenticated
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`; 
+      //update mesage displayed to user
       setErrorMessage(res.data.message);
+      // if successful, direct to next page
       if (res.status === 200) {
         setIsAuthenticated(true);
         if (isAuthenticated===true) {
           navigate('/testcom');}
-
+      //
       } else {
         setErrorMessage('Failed to sign in. Please try again.');
       }
+      // catch potential errors and diplay correct error message
     } catch (error) {
       console.log(error.message);
       if (error.response.status === 401) {
@@ -45,7 +53,7 @@ function SignIn() {
   };
  
 
-  
+  // html, css for basic fron end
   return (
     <div className="signin-container">
       <h1 className="signin-title">Sign in</h1>

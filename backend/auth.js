@@ -3,6 +3,8 @@ const { body, validationResult } = require('express-validator');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
+// Customised fucntions to manually check information that is not available via supabase in-built
+
 async function checkEmailExists(email) {
   const { data, error } = await supabase.from('Users').select('email').eq('email', email);
   if (error) {

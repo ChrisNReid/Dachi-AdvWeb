@@ -1,11 +1,13 @@
+// Import required libraries
 const { createClient } = require("@supabase/supabase-js");
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors");git
 const app = express();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const authRouter = require("./auth");
 
+// Initialize the Supabase client
 const supabaseUrl = "https://ppayoicayizfiezyqdtf.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwYXlvaWNheWl6ZmllenlxZHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0NDU2NzcsImV4cCI6MTk5ODAyMTY3N30.8BhS7mRtSyEZKeQMg9B80A_Tv9PbocQZjCQ0ZU3YisI";
@@ -13,15 +15,18 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const JWT_SECRET =
   "TlJ2sQP1bhiEIqYXTFaS/LV/MQTtC9DUX4WLqKwkJ9X3uYGAfJhId7ZLq0HdNyPsmvo831W7/4pZDa1Bw1YCsQ==";
 
+//Define CORS options and middleware
 const corsOptions = {
   origin: "http://localhost:3000", // allow requests from this origin
   optionsSuccessStatus: 200, // return 200 instead of 204 for OPTIONS requests
   credentials: true,
 };
+//Define middleware to parse JSON request bodies, auth and CORS
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/auth", authRouter);
 
+// Verify tokens for authentication 
 function verifyToken(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
@@ -37,10 +42,14 @@ function verifyToken(req, res, next) {
       .json({ message: "Authorization token is invalid or expired" });
   }
 }
+//test tokens valid
 app.get("/api/test", verifyToken, (req, res) => {
   res.json({ message: "Authorization successful", user: req.user });
 });
 
+//Defines a POST route at /api/signup for user signup. It validates the email and password inputs
+// and returns an error message if they are not valid. It then creates a new user account with Supabase
+// and generates a JWT token that is returned to the client along with the user object
 app.post("/api/signup", async (req, res) => {
   const { email, password } = req.body;
   console.log("email here", email);
@@ -103,6 +112,7 @@ app.post("/api/signin", async (req, res) => {
     return res.json({ message: "Failed to sign in" });
   }
 });
+// Function to visually test the running of the server
 app.get("/", (req, res) => {
   res.send("Hello, world!");
 });
